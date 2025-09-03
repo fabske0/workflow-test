@@ -1,15 +1,20 @@
-import { existsSync, readFileSync } from "node:fs";
+import * as core from "@actions/core"
+import { existsSync, readFileSync } from "node:fs"
 import {
-  toCamelCase,
-  toKebabCase,
-  toPascalCase,
-  toPascalSnakeCase,
-  toSnakeCase,
-  toUpperSnakeCase,
-} from "../helpers/strings.js";
-import { fileNameFormat, i18nextKeyExtensions, keyFormat, LOCALES_DIR } from "./constants.js";
-import { getFiles } from "./get-files.js";
-import * as core from "@actions/core";
+    toCamelCase,
+    toKebabCase,
+    toPascalCase,
+    toPascalSnakeCase,
+    toSnakeCase,
+    toUpperSnakeCase,
+} from "../helpers/strings.js"
+import {
+    fileNameFormat,
+    i18nextKeyExtensions,
+    keyFormat,
+    LOCALES_DIR,
+} from "./constants.js"
+import { getFiles } from "./get-files.js"
 
 //#region Key Format
 
@@ -19,28 +24,33 @@ import * as core from "@actions/core";
  * @returns {Promise<incorrectKeys>} The incorrect keys found.
  */
 export async function checkLocaleKeys(options) {
-  return new Promise(resolve => {
-    /** @type {incorrectKeys} */
-    let incorrectKeys = {};
+    return new Promise((resolve) => {
+        /** @type {incorrectKeys} */
+        let incorrectKeys = {}
 
-    for (const languageCode of options.languages) {
-      const path = `${LOCALES_DIR}/${languageCode}`;
-      console.log("path:",path)
-      const files = getFiles(path);
-      let languageCodeIncorrectKeys = 0;
-      for (const filePath of files) {
-        const fileIncorrectKeys = checkForIncorrectKeys(filePath, options);
-        if (fileIncorrectKeys !== null) {
-          incorrectKeys = { ...incorrectKeys, ...fileIncorrectKeys };
-          languageCodeIncorrectKeys += Object.values(fileIncorrectKeys).reduce((sum, val) => sum + val.length, 0);
+        for (const languageCode of options.languages) {
+            const path = `${languageCode}`
+            console.log("path:", path)
+            const files = getFiles(path)
+            let languageCodeIncorrectKeys = 0
+            for (const filePath of files) {
+                const fileIncorrectKeys = checkForIncorrectKeys(
+                    filePath,
+                    options
+                )
+                if (fileIncorrectKeys !== null) {
+                    incorrectKeys = { ...incorrectKeys, ...fileIncorrectKeys }
+                    languageCodeIncorrectKeys += Object.values(
+                        fileIncorrectKeys
+                    ).reduce((sum, val) => sum + val.length, 0)
+                }
+            }
+            console.log(
+                `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`
+            )
         }
-      }
-      console.log(
-          `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
-      );
-    }
-    resolve(incorrectKeys);
-  });
+        resolve(incorrectKeys)
+    })
 }
 
 /**
@@ -49,10 +59,10 @@ export async function checkLocaleKeys(options) {
  * @returns {string | null} The content of the file.
  */
 function readFileContent(filePath) {
-  if (!existsSync(filePath)) {
-    return null;
-  }
-  return readFileSync(filePath, "utf8");
+    if (!existsSync(filePath)) {
+        return null
+    }
+    return readFileSync(filePath, "utf8")
 }
 
 /**
@@ -62,38 +72,40 @@ function readFileContent(filePath) {
  * @returns {incorrectKeys | null} The incorrect keys found in the file.
  */
 function checkForIncorrectKeys(filePath, options) {
-  /** @type {incorrectKeys} */
-  const incorrectKeys = {};
-  if (options.verbose) {
-    console.log(`checking file: ${filePath}`);
-  }
-
-  let data;
-  try {
-    const fileContent = readFileContent(filePath);
-    if (fileContent === null) {
-      return null;
-    }
-    data = JSON.parse(fileContent);
-  } catch (e) {
-    core.setFailed(`Error parsing ${filePath}: ${e.message}`);
-  }
-  const keys = Object.keys(data);
-
-  const entries = keys.map((key, index) => analyzeKey(key, index, options)).filter(e => e !== null);
-
-  if (entries.length > 0) {
-    incorrectKeys[filePath] = entries;
-  }
-
-  if (entries.length === 0 && options.verbose) {
-    console.log(`No incorrect keys found in ${filePath}`);
-  } else {
+    /** @type {incorrectKeys} */
+    const incorrectKeys = {}
     if (options.verbose) {
-      console.log(`Found ${entries.length} incorrect keys in ${filePath}`);
+        console.log(`checking file: ${filePath}`)
     }
-  }
-  return incorrectKeys;
+
+    let data
+    try {
+        const fileContent = readFileContent(filePath)
+        if (fileContent === null) {
+            return null
+        }
+        data = JSON.parse(fileContent)
+    } catch (e) {
+        core.setFailed(`Error parsing ${filePath}: ${e.message}`)
+    }
+    const keys = Object.keys(data)
+
+    const entries = keys
+        .map((key, index) => analyzeKey(key, index, options))
+        .filter((e) => e !== null)
+
+    if (entries.length > 0) {
+        incorrectKeys[filePath] = entries
+    }
+
+    if (entries.length === 0 && options.verbose) {
+        console.log(`No incorrect keys found in ${filePath}`)
+    } else {
+        if (options.verbose) {
+            console.log(`Found ${entries.length} incorrect keys in ${filePath}`)
+        }
+    }
+    return incorrectKeys
 }
 
 /**
@@ -104,19 +116,19 @@ function checkForIncorrectKeys(filePath, options) {
  * @returns {incorrectKey | null} The incorrect key and its correction or null if the key is correct.
  */
 function analyzeKey(key, index, options) {
-  const line = index + 2;
-  let correctKey = getCorrectFormat(key, keyFormat);
-  if (key.includes("_")) {
-    correctKey = processExtensions(key);
-  }
-  if (correctKey === key) {
-    return null;
-  }
-  if (options.verbose) {
-    console.log(`Incorrect key found at line ${line}: ${key}`);
-    console.log(`Correct key: ${correctKey}`);
-  }
-  return { incorrectKey: key, correctedKey: correctKey, line: line };
+    const line = index + 2
+    let correctKey = getCorrectFormat(key, keyFormat)
+    if (key.includes("_")) {
+        correctKey = processExtensions(key)
+    }
+    if (correctKey === key) {
+        return null
+    }
+    if (options.verbose) {
+        console.log(`Incorrect key found at line ${line}: ${key}`)
+        console.log(`Correct key: ${correctKey}`)
+    }
+    return { incorrectKey: key, correctedKey: correctKey, line: line }
 }
 
 /**
@@ -125,17 +137,17 @@ function analyzeKey(key, index, options) {
  * @returns {string} The correct processed key.
  */
 function processExtensions(key) {
-  let ret;
-  const parts = key.split("_");
-  ret = parts[0];
-  for (const part of parts.slice(1)) {
-    if (i18nextKeyExtensions.includes(`_${part}`)) {
-      ret += `_${part}`;
-    } else {
-      ret += toPascalCase(part);
+    let ret
+    const parts = key.split("_")
+    ret = parts[0]
+    for (const part of parts.slice(1)) {
+        if (i18nextKeyExtensions.includes(`_${part}`)) {
+            ret += `_${part}`
+        } else {
+            ret += toPascalCase(part)
+        }
     }
-  }
-  return ret;
+    return ret
 }
 
 //#endregion
@@ -148,27 +160,30 @@ function processExtensions(key) {
  * @returns {Promise<incorrectFileName[]>} The incorrect file names found.
  */
 export async function checkLocaleFileNames(options) {
-  return new Promise(resolve => {
-    /** @type {incorrectFileName[]} */
-    const incorrectFileNames = [];
+    return new Promise((resolve) => {
+        /** @type {incorrectFileName[]} */
+        const incorrectFileNames = []
 
-    for (const languageCode of options.languages) {
-      const path = `${LOCALES_DIR}/${languageCode}`;
-      const files = getFiles(path);
-      let languageCodeIncorrectFiles = 0;
-      for (const filePath of files) {
-        const fileNameResult = checkForIncorrectFileName(filePath, options);
-        if (fileNameResult !== null) {
-          incorrectFileNames.push(fileNameResult);
-          languageCodeIncorrectFiles++;
+        for (const languageCode of options.languages) {
+            const path = `${LOCALES_DIR}/${languageCode}`
+            const files = getFiles(path)
+            let languageCodeIncorrectFiles = 0
+            for (const filePath of files) {
+                const fileNameResult = checkForIncorrectFileName(
+                    filePath,
+                    options
+                )
+                if (fileNameResult !== null) {
+                    incorrectFileNames.push(fileNameResult)
+                    languageCodeIncorrectFiles++
+                }
+            }
+            console.log(
+                `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`
+            )
         }
-      }
-      console.log(
-          `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
-      );
-    }
-    resolve(incorrectFileNames);
-  });
+        resolve(incorrectFileNames)
+    })
 }
 
 /**
@@ -178,24 +193,24 @@ export async function checkLocaleFileNames(options) {
  * @returns {incorrectFileName | null} The incorrect file name found.
  */
 function checkForIncorrectFileName(filePath, options) {
-  if (options.verbose) {
-    console.log(`checking file: ${filePath}`);
-  }
+    if (options.verbose) {
+        console.log(`checking file: ${filePath}`)
+    }
 
-  const fileName = filePath.split("/").pop();
-  if (fileName === undefined) {
-    return null;
-  }
+    const fileName = filePath.split("/").pop()
+    if (fileName === undefined) {
+        return null
+    }
 
-  const correctFileName = getCorrectFormat(fileName, fileNameFormat);
-  if (correctFileName === fileName) {
-    return null;
-  }
-  if (options.verbose) {
-    console.log(`Incorrect file name found: ${fileName}`);
-    console.log(`Correct file name: ${correctFileName}`);
-  }
-  return { incorrectFileName: fileName, correctedFileName: correctFileName };
+    const correctFileName = getCorrectFormat(fileName, fileNameFormat)
+    if (correctFileName === fileName) {
+        return null
+    }
+    if (options.verbose) {
+        console.log(`Incorrect file name found: ${fileName}`)
+        console.log(`Correct file name: ${correctFileName}`)
+    }
+    return { incorrectFileName: fileName, correctedFileName: correctFileName }
 }
 
 //#endregion
@@ -207,20 +222,20 @@ function checkForIncorrectFileName(filePath, options) {
  * @returns {string} The correct format.
  */
 function getCorrectFormat(key, format) {
-  switch (format) {
-    case "camelCase":
-      return toCamelCase(key);
-    case "kebab-case":
-      return toKebabCase(key);
-    case "PascalCase":
-      return toPascalCase(key);
-    case "snake_case":
-      return toSnakeCase(key);
-    case "UPPER_SNAKE_CASE":
-      return toUpperSnakeCase(key);
-    case "Pascal_Snake_Case":
-      return toPascalSnakeCase(key);
-    default:
-      core.setFailed(`Unknown format: ${format}`);
-  }
+    switch (format) {
+        case "camelCase":
+            return toCamelCase(key)
+        case "kebab-case":
+            return toKebabCase(key)
+        case "PascalCase":
+            return toPascalCase(key)
+        case "snake_case":
+            return toSnakeCase(key)
+        case "UPPER_SNAKE_CASE":
+            return toUpperSnakeCase(key)
+        case "Pascal_Snake_Case":
+            return toPascalSnakeCase(key)
+        default:
+            core.setFailed(`Unknown format: ${format}`)
+    }
 }
