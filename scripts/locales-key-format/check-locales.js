@@ -9,6 +9,7 @@ import {
 } from "../helpers/strings.js";
 import { fileNameFormat, i18nextKeyExtensions, keyFormat, LOCALES_DIR } from "./constants.js";
 import { getFiles } from "./get-files.js";
+import { COLORS } from "./constants.js";
 import * as core from "@actions/core";
 
 //#region Key Format
