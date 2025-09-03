@@ -105,6 +105,7 @@ function parseArgs(args) {
     }
 
     const validLanguages = getLanguageCodes()
+    console.log("validLanguages:", validLanguages)
     for (const language of languageArgs) {
         if (!validLanguages.includes(language)) {
             core.setFailed(`Invalid language: ${language}`)
