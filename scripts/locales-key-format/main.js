@@ -128,7 +128,6 @@ function displayKeyResults(result, options) {
         core.setFailed("Found incorrect keys")
         // Log incorrect keys per language
         for (const languageCode of options.languages) {
-            core.startGroup(`${COLORS.info}Result for ${languageCode}`)
             const incorrectKeysForLang = Object.entries(result).filter(
                 ([path]) => path.includes(`/${languageCode}/`)
             )
@@ -137,6 +136,7 @@ function displayKeyResults(result, options) {
                 0
             )
             const color = incorrectKeysCount > 0 ? COLORS.red : COLORS.green
+            core.startGroup(`Result for ${languageCode}`)
             core.info(
                 `${color}${languageCode}: ${incorrectKeysCount} incorrect keys`
             )
@@ -170,13 +170,13 @@ function displayFileNameResults(result, options) {
         core.setFailed("Found incorrect file names")
         // Log incorrect file names per language
         for (const languageCode of options.languages) {
-            core.startGroup(`Result for ${languageCode}`)
             const incorrectFileNamesForLang = result.filter((fileName) =>
                 fileName.incorrectFileName.includes(`/${languageCode}/`)
             )
             const color =
                 incorrectFileNamesForLang.length > 0 ? COLORS.red : COLORS.green
 
+            core.startGroup(`Result for ${languageCode}`)
             core.info(
                 `${color}${languageCode}: ${incorrectFileNamesForLang.length} incorrect file names`
             )
