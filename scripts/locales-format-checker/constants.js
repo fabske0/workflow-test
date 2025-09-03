@@ -1,7 +1,7 @@
 /**
  * The directory containing all locales files.
  */
-export const LOCALES_DIR = "."; // todo: remove later???
+export const LOCALES_DIR = ".";
 /**
  * A list of files to ignore.
  * @type {string[]}
@@ -27,7 +27,7 @@ export const ignoreList = [
  * @link https://www.i18next.com/translation-function/context
  * @returns {string[]}
  */
-export const i18nextKeyExtensions = ["_male", "_female", "_ordinal", "_one", "_two", "_other", "_few"]; // todo: add numberes `_1` ...
+export const i18nextKeyExtensions = ["_male", "_female", "_ordinal", "_one", "_two", "_other", "_few"];
 
 /**
  * The key format to check for.
