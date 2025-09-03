@@ -1,4 +1,4 @@
-name: Validate locale formats
+name: Validate locales formats
 on:
     # adjust for Pokerogue
     pull_request:
