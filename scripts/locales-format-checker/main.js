@@ -217,11 +217,6 @@ function displayIncorrectFileNames(languageCode, incorrectFileNamesForLang) {
         return
     }
     for (const incorrectFileName of incorrectFileNamesForLang) {
-        if (
-            !incorrectFileName.incorrectFileName.includes(`/${languageCode}/`)
-        ) {
-            continue
-        }
         core.info(
             `${COLORS.red}Incorrect file name: ${incorrectFileName.incorrectFileName}`
         )
