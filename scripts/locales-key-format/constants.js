@@ -1,7 +1,7 @@
 /**
  * The directory containing all locales files.
  */
-export const LOCALES_DIR = "./public/locales"; // todo: adjust for locales repo
+export const LOCALES_DIR = "."; // todo: remove later???
 /**
  * A list of files to ignore.
  * @type {string[]}
