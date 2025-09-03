@@ -116,6 +116,7 @@ function parseArgs(args) {
         // get all languages if none are specified
         options.languages = getLanguageCodes()
     }
+    console.log(options.languages)
     return options
 }
 
@@ -206,7 +207,7 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
             continue
         }
         // log the filepath
-        core.info(`\n${COLORS.file}File: ${filePath}`)
+        core.info(`${COLORS.file}File: ${filePath}`)
         for (const incorrectKey of incorrectKeys) {
             core.info(
                 `${COLORS.red}Incorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
