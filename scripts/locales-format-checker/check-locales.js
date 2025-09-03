@@ -152,7 +152,7 @@ function processExtensions(key) {
 export async function checkLocaleFileNames(options) {
   return new Promise(resolve => {
     /** @type {incorrectFileNames} */
-    const incorrectFileNamess = {};
+    const incorrectFileNames = {};
 
     for (const languageCode of options.languages) {
       core.startGroup(`Checking file names for ${languageCode}`);
