@@ -25,8 +25,8 @@ export function getFiles(dir) {
         files.push(filePath);
       }
     }
-    return files;
   }
+  return files;
 }
 
 /**
