@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/fabske0/workflow-test#readme",
   "optionalDependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1"
+    "@actions/core": "^1.11.1"
   }
 }
