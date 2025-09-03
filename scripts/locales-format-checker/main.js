@@ -15,7 +15,7 @@ const version = "1.0.0"
 
 async function main() {
     core.info(
-        `\u001b[38;2;255;127;80m🍳 Locales key format checker v${version}`
+        `\u001b[38;2;255;127;80m🍳 Locales format checker v${version}`
     )
 
     try {
