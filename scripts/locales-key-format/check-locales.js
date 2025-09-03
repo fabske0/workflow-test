@@ -63,7 +63,7 @@ function checkForIncorrectKeys(filePath, options) {
   /** @type {incorrectKeys} */
   const incorrectKeys = {};
   if (options.verbose) {
-    console.log(c`checking file: ${filePath}`);
+    console.log(`checking file: ${filePath}`);
   }
 
   let data;

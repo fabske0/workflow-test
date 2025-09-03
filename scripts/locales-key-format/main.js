@@ -20,7 +20,8 @@ const version = "1.0.0"
 async function main() {
     console.log(`🍳 Locales key format checker v${version}`)
 
-    const args = process.argv.slice(2)
+    try {
+      const args = process.argv.slice(2)
     const options = await parseArgs(args)
 
     if (!options.checkKeys && !options.checkFileNames) {
@@ -49,6 +50,9 @@ async function main() {
 
     if (options.checkFileNames) {
         displayFileNameResults(fileNameOutput, options)
+    }
+    } catch (error) {
+      core.setFailed(error.message)
     }
 }
 
