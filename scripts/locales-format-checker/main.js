@@ -155,6 +155,7 @@ function displayFileNameResults(result, options) {
     if (result.length > 0) {
         core.setFailed("Found incorrect file names")
         // Log incorrect file names per language
+        console.log(result)
         for (const languageCode of options.languages) {
             const incorrectFileNamesForLang = result.filter((fileName) =>
                 fileName.incorrectFileName.includes(`/${languageCode}/`)
