@@ -37,6 +37,7 @@ async function main() {
         if (options.checkKeys) {
             console.log("Checking key format...")
             keyOutput = await checkLocaleKeys(options)
+            console.log(keyOutput)
         }
         if (options.checkFileNames) {
             console.log("Checking file name format...")
@@ -185,7 +186,7 @@ function displayFileNameResults(result, options) {
                 `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
             )
         } else {
-            console.log("✔ No incorrect file names found!")
+            resolve("✔ No incorrect file names found!")
             process.exitCode = 0
         }
     })
