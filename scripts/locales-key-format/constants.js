@@ -1,7 +1,7 @@
 /**
  * The directory containing all locales files.
  */
-export const LOCALES_DIR = "./public/locales";
+export const LOCALES_DIR = ".";
 /**
  * A list of files to ignore.
  * @type {string[]}
