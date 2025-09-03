@@ -14,12 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
-        id: hello
-        with:
-          who-to-greet: Mona the Octocat
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
 
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - name: Install Node.js dependencies
+        run: npm install @actions/core @actions/github
+
+      - name: run script
+        run: node ./src/index.js
+        env:
+          INPUT_NAME: Fabi
