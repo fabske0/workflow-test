@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check-locales": "node scripts/locales-format-checker/main.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,7 @@
     "url": "https://github.com/fabske0/workflow-test/issues"
   },
   "homepage": "https://github.com/fabske0/workflow-test#readme",
-  "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1"
+  "optionalDependencies": {
+    "@actions/core": "^1.11.1"
   }
 }
