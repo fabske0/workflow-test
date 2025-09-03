@@ -53,5 +53,5 @@ jobs:
             - name: Install Node.js dependencies
               run: pnpm add @actions/core @actions/github
 
-            - name: Validate locale keys
+            - name: Validate locale file names
               run: pnpm check-locales -f -v
