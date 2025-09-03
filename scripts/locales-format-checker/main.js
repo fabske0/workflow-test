@@ -14,9 +14,7 @@ import { getLanguageCodes } from "./get-files.js"
 const version = "1.0.0"
 
 async function main() {
-    core.info(
-        `\u001b[38;2;255;127;80m🍳 Locales format checker v${version}`
-    )
+    core.info(`\u001b[38;2;255;127;80m🍳 Locales format checker v${version}`)
 
     try {
         const args = process.argv.slice(2)
@@ -161,6 +159,7 @@ function displayFileNameResults(result, options) {
             const incorrectFileNamesForLang = result.filter((fileName) =>
                 fileName.incorrectFileName.includes(`/${languageCode}/`)
             )
+            console.log(incorrectFileNamesForLang)
             const color =
                 incorrectFileNamesForLang.length > 0 ? COLORS.red : COLORS.green
 
