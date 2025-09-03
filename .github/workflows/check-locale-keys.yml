@@ -28,7 +28,7 @@ jobs:
                 cache: "pnpm"
             
             - name: Install Node.js dependencies
-              run: pnpm add @actions/core @actions/github chalk
+              run: pnpm add @actions/core @actions/github
 
             - name: Validate locale keys
               run: pnpm check-locales -k -v

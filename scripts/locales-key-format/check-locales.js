@@ -1,5 +1,4 @@
 import { existsSync, readFileSync } from "node:fs";
-import chalk from "chalk";
 import {
   toCamelCase,
   toKebabCase,
@@ -35,9 +34,7 @@ export function checkLocaleKeys(options) {
         }
       }
       console.log(
-        chalk.magenta(
           `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
-        ),
       );
     }
     resolve(incorrectKeys);
@@ -66,7 +63,7 @@ function checkForIncorrectKeys(filePath, options) {
   /** @type {incorrectKeys} */
   const incorrectKeys = {};
   if (options.verbose) {
-    console.log(chalk.cyan(`checking file: ${filePath}`));
+    console.log(c`checking file: ${filePath}`);
   }
 
   let data;
@@ -77,7 +74,7 @@ function checkForIncorrectKeys(filePath, options) {
     }
     data = JSON.parse(fileContent);
   } catch (e) {
-    console.error(chalk.red(`Error parsing ${filePath}: ${e.message}`));
+    console.error(`Error parsing ${filePath}: ${e.message}`);
     process.exit(1);
   }
   const keys = Object.keys(data);
@@ -89,10 +86,10 @@ function checkForIncorrectKeys(filePath, options) {
   }
 
   if (entries.length === 0 && options.verbose) {
-    console.log(chalk.green(`No incorrect keys found in ${filePath}`));
+    console.log(`No incorrect keys found in ${filePath}`);
   } else {
     if (options.verbose) {
-      console.log(chalk.red(`Found ${entries.length} incorrect keys in ${filePath}`));
+      console.log(`Found ${entries.length} incorrect keys in ${filePath}`);
     }
   }
   return incorrectKeys;
@@ -115,8 +112,8 @@ function analyzeKey(key, index, options) {
     return null;
   }
   if (options.verbose) {
-    console.log(chalk.red(`Incorrect key found at line ${line}: ${key}`));
-    console.log(chalk.blue(`Correct key: ${correctKey}`));
+    console.log(`Incorrect key found at line ${line}: ${key}`);
+    console.log(`Correct key: ${correctKey}`);
   }
   return { incorrectKey: key, correctedKey: correctKey, line: line };
 }
@@ -166,9 +163,7 @@ export function checkLocaleFileNames(options) {
         }
       }
       console.log(
-        chalk.magenta(
           `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
-        ),
       );
     }
     resolve(incorrectFileNames);
@@ -183,7 +178,7 @@ export function checkLocaleFileNames(options) {
  */
 function checkForIncorrectFileName(filePath, options) {
   if (options.verbose) {
-    console.log(chalk.cyan(`checking file: ${filePath}`));
+    console.log(`checking file: ${filePath}`);
   }
 
   const fileName = filePath.split("/").pop();
@@ -196,8 +191,8 @@ function checkForIncorrectFileName(filePath, options) {
     return null;
   }
   if (options.verbose) {
-    console.log(chalk.red(`Incorrect file name found: ${fileName}`));
-    console.log(chalk.blue(`Correct file name: ${correctFileName}`));
+    console.log(`Incorrect file name found: ${fileName}`);
+    console.log(`Correct file name: ${correctFileName}`);
   }
   return { incorrectFileName: fileName, correctedFileName: correctFileName };
 }
@@ -225,7 +220,7 @@ function getCorrectFormat(key, format) {
     case "Pascal_Snake_Case":
       return toPascalSnakeCase(key);
     default:
-      console.error(chalk.red.bold(`Unknown format: ${format}`));
+      console.error(`Unknown format: ${format}`);
       process.exit(1);
   }
 }

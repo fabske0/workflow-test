@@ -1,6 +1,5 @@
 import { existsSync, lstatSync, readdirSync } from "node:fs";
 import { format } from "node:util";
-import chalk from "chalk";
 import { fileExtension, ignoreList, LOCALES_DIR } from "./constants.js";
 
 /**
@@ -43,7 +42,7 @@ export function getLanguageCodes() {
   if (!existsSync(LOCALES_DIR)) {
     const errStr = format("Locales folder not found: %s", LOCALES_DIR);
     process.exitCode = 1;
-    console.error(chalk.red.bold(errStr));
+    console.error(errStr);
   } else {
     const folders = readdirSync(LOCALES_DIR);
 
