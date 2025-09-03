@@ -25,9 +25,9 @@ async function main() {
         const options = await parseArgs(args)
 
         if (!options.checkKeys && !options.checkFileNames) {
-            console.error("✗ Error: No options provided!")
+            core.setFailed("✗ Error: No options provided!")
             showHelpText()
-            process.exit(0)
+            process.exit()
         }
 
         /** @type {incorrectKeys} */
