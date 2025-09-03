@@ -1,7 +1,7 @@
+import * as core from "@actions/core";
 import { existsSync, lstatSync, readdirSync } from "node:fs";
 import { format } from "node:util";
 import { fileExtension, ignoreList, LOCALES_DIR } from "./constants.js";
-import * as core from "@actions/core"
 
 /**
  * Gets all files in a directory and subdirectories.
@@ -15,18 +15,18 @@ export function getFiles(dir) {
    */
   const files = [];
 
-  const entries = readdirSync(dir);
+  if (lstatSync(filePath).isDirectory()) {
+    const entries = readdirSync(dir);
 
-  for (const entry of entries) {
-    const filePath = `${dir}/${entry}`;
-    if (lstatSync(filePath).isDirectory()) {
-      files.push(...getFiles(filePath));
+    for (const entry of entries) {
+      const filePath = `${dir}/${entry}`;
+        files.push(...getFiles(filePath));
+      if (filePath.endsWith(fileExtension) && !ignoreList.includes(entry)) {
+        files.push(filePath);
+      }
     }
-    if (filePath.endsWith(fileExtension) && !ignoreList.includes(entry)) {
-      files.push(filePath);
-    }
+    return files;
   }
-  return files;
 }
 
 /**

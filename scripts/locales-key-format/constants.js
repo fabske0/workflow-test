@@ -13,6 +13,7 @@ export const ignoreList = [
   ".github",
   ".gitmodules",
   "LICENSE",
+  "node_modules",
   "package.json",
   "modifier-type.json", // todo: remove after modifier rework
   "modifier.json",
