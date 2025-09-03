@@ -31,4 +31,4 @@ jobs:
               run: pnpm add @actions/core @actions/github
 
             - name: Validate locale keys
-              run: pnpm check-locales -k -v
+              run: pnpm check-locales -k -v en
