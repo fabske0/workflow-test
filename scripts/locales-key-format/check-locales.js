@@ -17,7 +17,7 @@ import { getFiles } from "./get-files.js";
  * @param {options} options - The options to use.
  * @returns {Promise<incorrectKeys>} The incorrect keys found.
  */
-export function checkLocaleKeys(options) {
+export async function checkLocaleKeys(options) {
   return new Promise(resolve => {
     /** @type {incorrectKeys} */
     let incorrectKeys = {};
@@ -146,7 +146,7 @@ function processExtensions(key) {
  * @param {options} options - The options to use.
  * @returns {Promise<incorrectFileName[]>} The incorrect file names found.
  */
-export function checkLocaleFileNames(options) {
+export async function checkLocaleFileNames(options) {
   return new Promise(resolve => {
     /** @type {incorrectFileName[]} */
     const incorrectFileNames = [];
