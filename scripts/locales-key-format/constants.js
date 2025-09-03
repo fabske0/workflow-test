@@ -36,3 +36,14 @@ export const fileNameFormat = "kebab-case";
  * The file extension to check.
  */
 export const fileExtension = ".json";
+
+/**
+ * 24 bit Color map
+ */
+export const COLORS = {
+  "blue": "\u001b[38;2;0;0;255m",
+  "green": "\u001b[38;2;0;255;0m",
+  "red": "\u001b[38;2;255;0;0m",
+  "info": "\u001b[38;2;255;265;0m",
+  "file": "\u001b[38;2;128;128;128m"
+}
