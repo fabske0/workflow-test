@@ -18,7 +18,7 @@
     "url": "https://github.com/fabske0/workflow-test/issues"
   },
   "homepage": "https://github.com/fabske0/workflow-test#readme",
-  "dependencies": {
+  "optionalDependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1"
   }
