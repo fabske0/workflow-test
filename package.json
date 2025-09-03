@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check-locales": "node scripts/locales-key-format/main.js"
   },
   "repository": {
     "type": "git",
