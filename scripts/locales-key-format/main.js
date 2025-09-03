@@ -27,7 +27,7 @@ async function main() {
         if (!options.checkKeys && !options.checkFileNames) {
             core.setFailed("✗ Error: No options provided!")
             showHelpText()
-            process.exit()
+            // process.exit()
         }
 
         /** @type {incorrectKeys} */
