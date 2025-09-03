@@ -6,7 +6,7 @@ import { checkLocaleFileNames, checkLocaleKeys } from "./check-locales.js"
 import { getLanguageCodes } from "./get-files.js"
 import * as core from "@actions/core"
 import * as github from "@actions/github"
-github.context.eventName
+
 /**
  * @packageDocumentation
  * This script will check the key format of locales files
@@ -21,38 +21,38 @@ async function main() {
     console.log(`🍳 Locales key format checker v${version}`)
 
     try {
-      const args = process.argv.slice(2)
-    const options = await parseArgs(args)
+        const args = process.argv.slice(2)
+        const options = await parseArgs(args)
 
-    if (!options.checkKeys && !options.checkFileNames) {
-        console.error("✗ Error: No options provided!")
-        showHelpText()
-        process.exit(0)
-    }
+        if (!options.checkKeys && !options.checkFileNames) {
+            console.error("✗ Error: No options provided!")
+            showHelpText()
+            process.exit(0)
+        }
 
-    /** @type {incorrectKeys} */
-    let keyOutput = {}
-    /** @type {incorrectFileName[]} */
-    let fileNameOutput = []
+        /** @type {incorrectKeys} */
+        let keyOutput = {}
+        /** @type {incorrectFileName[]} */
+        let fileNameOutput = []
 
-    if (options.checkKeys) {
-        console.log("Checking key format...")
-        keyOutput = await checkLocaleKeys(options)
-    }
-    if (options.checkFileNames) {
-        console.log("#ffa500")("Checking file name format...")
-        fileNameOutput = await checkLocaleFileNames(options)
-    }
+        if (options.checkKeys) {
+            console.log("Checking key format...")
+            keyOutput = await checkLocaleKeys(options)
+        }
+        if (options.checkFileNames) {
+            console.log("Checking file name format...")
+            fileNameOutput = await checkLocaleFileNames(options)
+        }
 
-    if (options.checkKeys) {
-        displayKeyResults(keyOutput, options)
-    }
+        if (options.checkKeys) {
+            displayKeyResults(keyOutput, options)
+        }
 
-    if (options.checkFileNames) {
-        displayFileNameResults(fileNameOutput, options)
-    }
+        if (options.checkFileNames) {
+            displayFileNameResults(fileNameOutput, options)
+        }
     } catch (error) {
-      core.setFailed(error.message)
+        core.setFailed(error.message)
     }
 }
 
@@ -97,18 +97,18 @@ function parseArgs(args) {
                 process.exit(0)
                 break
             default:
-                console.error(`Unknown option: ${arg}`)
+                core.setFailed(`Unknown option: ${arg}`)
                 showHelpText()
-                process.exit(1)
+                process.exit()
         }
     }
 
     const validLanguages = getLanguageCodes()
     for (const language of languageArgs) {
         if (!validLanguages.includes(language)) {
-            console.error(`Invalid language: ${language}`)
+            core.setFailed(`Invalid language: ${language}`)
             listLanguages()
-            process.exit(1)
+            process.exit()
         }
         options.languages.push(language)
     }
@@ -125,7 +125,7 @@ function parseArgs(args) {
  */
 function displayKeyResults(result, options) {
     console.log("Key Result:")
-    if (Object.keys(result).length > 1) {
+    if (Object.keys(result).length > 0) {
         core.setFailed("Found incorrect keys")
         // Log incorrect keys per language
         for (const languageCode of options.languages) {
@@ -149,7 +149,7 @@ function displayKeyResults(result, options) {
             (sum, val) => sum + val.length,
             0
         )
-        console.log(
+        core.setFailed(
             `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
         )
     } else {
@@ -176,10 +176,12 @@ function displayFileNameResults(result, options) {
             )
         }
         const incorrectFileNameCount = result.length
-        console.log(
-                `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
+        core.setFailed(
+            `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
         )
+        process.exit()
     } else {
+        console.log("✔ No incorrect file names found!")
         process.exitCode = 0
     }
 }

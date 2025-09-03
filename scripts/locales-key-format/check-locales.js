@@ -9,6 +9,7 @@ import {
 } from "../helpers/strings.js";
 import { fileNameFormat, i18nextKeyExtensions, keyFormat, LOCALES_DIR } from "./constants.js";
 import { getFiles } from "./get-files.js";
+import * as core from "@actions/core";
 
 //#region Key Format
 
@@ -74,8 +75,7 @@ function checkForIncorrectKeys(filePath, options) {
     }
     data = JSON.parse(fileContent);
   } catch (e) {
-    console.error(`Error parsing ${filePath}: ${e.message}`);
-    process.exit(1);
+    core.setFailed(`Error parsing ${filePath}: ${e.message}`);
   }
   const keys = Object.keys(data);
 
@@ -220,7 +220,6 @@ function getCorrectFormat(key, format) {
     case "Pascal_Snake_Case":
       return toPascalSnakeCase(key);
     default:
-      console.error(`Unknown format: ${format}`);
-      process.exit(1);
+      core.setFailed(`Unknown format: ${format}`);
   }
 }
