@@ -209,7 +209,7 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
             core.info(
                 `${COLORS.red}Incorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
             )
-            core.info(`${COLORS.blue}Correct key: ${incorrectKey.correctedKey}`)
+            core.info(`${COLORS.corrected}Correct key: ${incorrectKey.correctedKey}`)
         }
     }
 }

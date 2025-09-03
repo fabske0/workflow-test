@@ -114,7 +114,7 @@ function analyzeKey(key, index, options) {
   }
   if (options.verbose) {
     core.info(`${COLORS.red}Incorrect key found at line ${line}: ${key}`);
-  core.info(`${COLORS.blue}Correct key: ${correctKey}`);
+  core.info(`${COLORS.corrected}Correct key: ${correctKey}`);
   }
   return { incorrectKey: key, correctedKey: correctKey, line: line };
 }
@@ -193,7 +193,7 @@ function checkForIncorrectFileName(filePath, options) {
   }
   if (options.verbose) {
     core.info(`${COLORS.red}Incorrect file name found: ${fileName}`);
-    core.info(`${COLORS.blue}Correct file name: ${correctFileName}`);
+    core.info(`${COLORS.corrected}Correct file name: ${correctFileName}`);
   }
   return { incorrectFileName: fileName, correctedFileName: correctFileName };
 }
