@@ -1,11 +1,8 @@
 import * as core from "@actions/core"
-import {
-    listLanguages,
-    showHelpText,
-} from "./help-message.js"
 import { checkLocaleFileNames, checkLocaleKeys } from "./check-locales.js"
-import { getLanguageCodes } from "./get-files.js"
 import { COLORS } from "./constants.js"
+import { getLanguageCodes } from "./get-files.js"
+import { listLanguages, showHelpText } from "./help-message.js"
 
 /**
  * @packageDocumentation
@@ -18,7 +15,9 @@ import { COLORS } from "./constants.js"
 const version = "1.0.0"
 
 async function main() {
-    core.info(`\u001b[38;2;255;127;80m🍳 Locales key format checker v${version}`)
+    core.info(
+        `\u001b[38;2;255;127;80m🍳 Locales key format checker v${version}`
+    )
 
     try {
         const args = process.argv.slice(2)
@@ -124,41 +123,41 @@ function parseArgs(args) {
  * @param {incorrectKeys} result - The incorrect keys found.
  */
 function displayKeyResults(result, options) {
-        core.info(`${COLORS.info}Key Result:`)
-        if (Object.keys(result).length > 0) {
-            core.setFailed("Found incorrect keys")
-            // Log incorrect keys per language
-            for (const languageCode of options.languages) {
-                core.startGroup(`Result for ${languageCode}`)
-                const incorrectKeysForLang = Object.entries(result).filter(
-                    ([path]) => path.includes(`/${languageCode}/`)
-                )
-                const incorrectKeysCount = incorrectKeysForLang.reduce(
-                    (sum, [_, val]) => sum + val.length,
-                    0
-                )
-                const color = incorrectKeysCount > 0 ? COLORS.red : COLORS.green
-                core.info(
-                    `${color}${languageCode}: ${incorrectKeysCount} incorrect keys`
-                )
-                // log all incorrect keys for the language
-                displayIncorrectKeys(
-                    languageCode,
-                    Object.fromEntries(incorrectKeysForLang)
-                )
-                core.endGroup()
-            }
-            const incorrectKeyCount = Object.values(result).reduce(
-                (sum, val) => sum + val.length,
+    core.info(`${COLORS.info}Key Result:`)
+    if (Object.keys(result).length > 0) {
+        core.setFailed("Found incorrect keys")
+        // Log incorrect keys per language
+        for (const languageCode of options.languages) {
+            core.startGroup(`Result for ${languageCode}`)
+            const incorrectKeysForLang = Object.entries(result).filter(
+                ([path]) => path.includes(`/${languageCode}/`)
+            )
+            const incorrectKeysCount = incorrectKeysForLang.reduce(
+                (sum, [_, val]) => sum + val.length,
                 0
             )
-            core.setFailed(
-                `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
+            const color = incorrectKeysCount > 0 ? COLORS.red : COLORS.green
+            core.info(
+                `${color}${languageCode}: ${incorrectKeysCount} incorrect keys`
             )
-        } else {
-            core.info(`${COLORS.green}✔ No incorrect keys found!`)
-            process.exitCode = 0
+            // log all incorrect keys for the language
+            displayIncorrectKeys(
+                languageCode,
+                Object.fromEntries(incorrectKeysForLang)
+            )
+            core.endGroup()
         }
+        const incorrectKeyCount = Object.values(result).reduce(
+            (sum, val) => sum + val.length,
+            0
+        )
+        core.setFailed(
+            `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
+        )
+    } else {
+        core.info(`${COLORS.green}✔ No incorrect keys found!`)
+        process.exitCode = 0
+    }
 }
 
 /**
@@ -166,34 +165,38 @@ function displayKeyResults(result, options) {
  * @param {incorrectFileName[]} result - The incorrect keys found.
  */
 function displayFileNameResults(result, options) {
-        core.info(`${COLORS.info}File Name Result:`)
-        if (result.length > 0) {
-            core.setFailed("Found incorrect file names")
-            // Log incorrect file names per language
-            for (const languageCode of options.languages) {
-                const incorrectFileNamesForLang = result.filter((fileName) =>
-                    fileName.incorrectFileName.includes(`/${languageCode}/`)
-                ).length
-                const color = incorrectFileNamesForLang > 0 ? COLORS.red : COLORS.green
-                      
-                core.info(
-                    `${color}${languageCode}: ${incorrectFileNamesForLang} incorrect file names`
-                )
-            }
-            const incorrectFileNameCount = result.length
-            core.setFailed(
-                `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
+    core.info(`${COLORS.info}File Name Result:`)
+    if (result.length > 0) {
+        core.setFailed("Found incorrect file names")
+        // Log incorrect file names per language
+        for (const languageCode of options.languages) {
+            core.startGroup(`Result for ${languageCode}`)
+            const incorrectFileNamesForLang = result.filter((fileName) =>
+                fileName.incorrectFileName.includes(`/${languageCode}/`)
             )
-        } else {
-            core.info(`${COLORS.green}✔ No incorrect file names found!`)
-            process.exitCode = 0
+            const color =
+                incorrectFileNamesForLang.length > 0 ? COLORS.red : COLORS.green
+
+            core.info(
+                `${color}${languageCode}: ${incorrectFileNamesForLang.length} incorrect file names`
+            )
+            displayIncorrectFileNames(languageCode, incorrectFileNamesForLang)
+            core.endGroup()
         }
+        const incorrectFileNameCount = result.length
+        core.setFailed(
+            `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
+        )
+    } else {
+        core.info(`${COLORS.green}✔ No incorrect file names found!`)
+        process.exitCode = 0
+    }
 }
 
 /**
  * Display the incorrect keys for a language.
  * @param {string} languageCode - The language code.
- * @param {incorrectKeys} incorrectKeysForLang - The number of incorrect keys for the language.
+ * @param {incorrectKeys} incorrectKeysForLang - The incorrect keys for the language.
  */
 function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
     if (Object.keys(incorrectKeysForLang).length <= 0) {
@@ -211,8 +214,34 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
             core.info(
                 `${COLORS.red}Incorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
             )
-            core.info(`${COLORS.corrected}Correct key: ${incorrectKey.correctedKey}`)
+            core.info(
+                `${COLORS.corrected}Correct key: ${incorrectKey.correctedKey}`
+            )
         }
+    }
+}
+
+/**
+ * Display the incorrect keys for a language.
+ * @param {string} languageCode - The language code.
+ * @param {incorrectFileName[]} incorrectFileNamesForLang - The incorrect file names for the language.
+ */
+function displayIncorrectFileNames(languageCode, incorrectFileNamesForLang) {
+    if (incorrectFileNamesForLang.length <= 0) {
+        return
+    }
+    for (const incorrectFileName of incorrectFileNamesForLang) {
+        if (
+            !incorrectFileName.incorrectFileName.includes(`/${languageCode}/`)
+        ) {
+            continue
+        }
+        core.info(
+            `${COLORS.red}Incorrect file name: ${incorrectFileName.incorrectFileName}`
+        )
+        core.info(
+            `${COLORS.corrected}Correct file name: ${incorrectFileName.correctedFileName}`
+        )
     }
 }
 
