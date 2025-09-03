@@ -17,7 +17,7 @@ import { getLanguageCodes } from "./get-files.js"
 const version = "1.0.0"
 
 async function main() {
-    core.info(`\u001b[38;2;255;0;0m🍳 Locales key format checker v${version}`)
+    core.info(`\u001b[255;127;80m🍳 Locales key format checker v${version}`)
 
     try {
         const args = process.argv.slice(2)
