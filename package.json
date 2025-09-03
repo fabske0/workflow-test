@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "check-locales": "node scripts/locales-key-format/main.js"
+    "check-locales": "node scripts/locales-format-checker/main.js"
   },
   "repository": {
     "type": "git",
