@@ -28,8 +28,8 @@ async function main() {
 
         /** @type {incorrectKeys} */
         let keyOutput = {}
-        /** @type {incorrectFileName[]} */
-        let fileNameOutput = []
+        /** @type {incorrectFileNames} */
+        let fileNameOutput = {}
 
         if (options.checkKeys) {
             core.info(`${COLORS.info}Checking key format...`)
@@ -107,6 +107,7 @@ function parseArgs(args) {
 /**
  * Display the results for the key format check.
  * @param {incorrectKeys} result - The incorrect keys found.
+ * @param {options} options - The options used.
  */
 function displayKeyResults(result, options) {
     core.info(`${COLORS.info}Key Result:`)
@@ -148,19 +149,16 @@ function displayKeyResults(result, options) {
 
 /**
  * Display the results for the file name format check.
- * @param {incorrectFileName[]} result - The incorrect keys found.
+ * @param {incorrectFileNames} result - The incorrect keys found.
+ * @param {options} options - The options used.
  */
 function displayFileNameResults(result, options) {
     core.info(`${COLORS.info}File Name Result:`)
-    if (result.length > 0) {
+    if (Object.keys(result).length > 0) {
         core.setFailed("Found incorrect file names")
         // Log incorrect file names per language
-        console.log(result)
         for (const languageCode of options.languages) {
-            const incorrectFileNamesForLang = result.filter((fileName) =>
-                fileName.incorrectFileName.includes(`/${languageCode}/`)
-            )
-            console.log(incorrectFileNamesForLang)
+            const incorrectFileNamesForLang = result[languageCode]
             const color =
                 incorrectFileNamesForLang.length > 0 ? COLORS.red : COLORS.green
 

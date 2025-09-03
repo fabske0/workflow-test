@@ -147,28 +147,30 @@ function processExtensions(key) {
 /**
  * Check the file name format of all locales files.
  * @param {options} options - The options to use.
- * @returns {Promise<incorrectFileName[]>} The incorrect file names found.
+ * @returns {Promise<incorrectFileNames>} The incorrect file names found.
  */
 export async function checkLocaleFileNames(options) {
   return new Promise(resolve => {
-    /** @type {incorrectFileName[]} */
-    const incorrectFileNames = [];
+    /** @type {incorrectFileNames} */
+    const incorrectFileNamess = {};
 
     for (const languageCode of options.languages) {
       core.startGroup(`Checking file names for ${languageCode}`);
       const path = `${LOCALES_DIR}/${languageCode}`;
       const files = getFiles(path);
       let languageCodeIncorrectFiles = 0;
+      const InvalidFileNamesForLang = [];
       for (const filePath of files) {
         const fileNameResult = checkForIncorrectFileName(filePath, options);
         if (fileNameResult !== null) {
-          incorrectFileNames.push(fileNameResult);
+          InvalidFileNamesForLang.push(fileNameResult);
           languageCodeIncorrectFiles++;
         }
       }
       core.info(
           `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
       );
+      incorrectFileNamess[languageCode] = InvalidFileNamesForLang;
       core.endGroup();
     }
     resolve(incorrectFileNames);

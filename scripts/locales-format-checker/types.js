@@ -15,5 +15,9 @@
  */
 
 /**
+ * @typedef {Object.<string, incorrectFileName[]} incorrectFileNames
+ */
+
+/**
  * @typedef {"camelCase" | "kebab-case" | "PascalCase" | "snake_case" | "UPPER_SNAKE_CASE" | "Pascal_Snake_Case"} format
  */
