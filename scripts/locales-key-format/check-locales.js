@@ -24,6 +24,7 @@ export async function checkLocaleKeys(options) {
     let incorrectKeys = {};
 
     for (const languageCode of options.languages) {
+      console.log("languageCode:",languageCode)
       const path = `${LOCALES_DIR}/${languageCode}`;
       console.log("path:",path)
       const files = getFiles(path);
