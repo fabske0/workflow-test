@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: fabske0/workflow-test
+        uses: ./
         with:
           who-to-greet: Fabi
 
