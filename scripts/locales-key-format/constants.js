@@ -7,13 +7,6 @@ export const LOCALES_DIR = "."; // todo: remove later???
  * @type {string[]}
  */
 export const ignoreList = [
-  "README.md",
-  ".gitignore",
-  ".git",
-  ".github",
-  ".gitmodules",
-  "LICENSE",
-  "node_modules",
   "package.json",
   "modifier-type.json", // todo: remove after modifier rework
   "modifier.json",

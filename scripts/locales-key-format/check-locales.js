@@ -23,11 +23,8 @@ export async function checkLocaleKeys(options) {
     /** @type {incorrectKeys} */
     let incorrectKeys = {};
 
-    console.log("options.languages:",options.languages)
     for (const languageCode of options.languages) {
-      console.log("languageCode:",languageCode)
       const path = `${LOCALES_DIR}/${languageCode}`;
-      console.log("path:",path)
       const files = getFiles(path);
       let languageCodeIncorrectKeys = 0;
       for (const filePath of files) {

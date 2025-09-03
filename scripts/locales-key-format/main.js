@@ -37,7 +37,6 @@ async function main() {
         if (options.checkKeys) {
             console.log("Checking key format...")
             keyOutput = await checkLocaleKeys(options)
-            console.log(keyOutput)
         }
         if (options.checkFileNames) {
             console.log("Checking file name format...")
@@ -105,7 +104,6 @@ function parseArgs(args) {
     }
 
     const validLanguages = getLanguageCodes()
-    console.log("validLanguages:", validLanguages)
     for (const language of languageArgs) {
         if (!validLanguages.includes(language)) {
             core.setFailed(`Invalid language: ${language}`)
