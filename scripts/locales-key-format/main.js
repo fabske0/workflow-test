@@ -140,13 +140,11 @@ function displayKeyResults(result, options) {
                 console.log(
                     `${languageCode}: ${incorrectKeysCount} incorrect keys`
                 )
-                if (options.verbose) {
-                    // log all incorrect keys for the language
-                    displayIncorrectKeys(
-                        languageCode,
-                        Object.fromEntries(incorrectKeysForLang)
-                    )
-                }
+                // log all incorrect keys for the language
+                displayIncorrectKeys(
+                    languageCode,
+                    Object.fromEntries(incorrectKeysForLang)
+                )
             }
             const incorrectKeyCount = Object.values(result).reduce(
                 (sum, val) => sum + val.length,
