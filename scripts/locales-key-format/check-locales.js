@@ -25,6 +25,7 @@ export async function checkLocaleKeys(options) {
     let incorrectKeys = {};
 
     for (const languageCode of options.languages) {
+      core.startGroup(`Checking keys for ${languageCode}`);
       const path = `${LOCALES_DIR}/${languageCode}`;
       const files = getFiles(path);
       let languageCodeIncorrectKeys = 0;
@@ -36,8 +37,9 @@ export async function checkLocaleKeys(options) {
         }
       }
       core.info(
-          `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
+        `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
       );
+      core.endGroup();
     }
     resolve(incorrectKeys);
   });
@@ -153,6 +155,7 @@ export async function checkLocaleFileNames(options) {
     const incorrectFileNames = [];
 
     for (const languageCode of options.languages) {
+      core.startGroup(`Checking file names for ${languageCode}`);
       const path = `${LOCALES_DIR}/${languageCode}`;
       const files = getFiles(path);
       let languageCodeIncorrectFiles = 0;
@@ -166,6 +169,7 @@ export async function checkLocaleFileNames(options) {
       core.info(
           `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
       );
+      core.endGroup();
     }
     resolve(incorrectFileNames);
   });
