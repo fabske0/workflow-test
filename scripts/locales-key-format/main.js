@@ -1,11 +1,10 @@
+import * as core from "@actions/core"
 import {
     listLanguages,
     showHelpText,
 } from "../locales-key-format/help-message.js"
 import { checkLocaleFileNames, checkLocaleKeys } from "./check-locales.js"
 import { getLanguageCodes } from "./get-files.js"
-import * as core from "@actions/core"
-import * as github from "@actions/github"
 
 /**
  * @packageDocumentation
@@ -27,7 +26,7 @@ async function main() {
         if (!options.checkKeys && !options.checkFileNames) {
             core.setFailed("✗ Error: No options provided!")
             showHelpText()
-            // process.exit()
+            return
         }
 
         /** @type {incorrectKeys} */
@@ -45,12 +44,13 @@ async function main() {
         }
 
         if (options.checkKeys) {
-            displayKeyResults(keyOutput, options)
+            await displayKeyResults(keyOutput, options)
         }
 
         if (options.checkFileNames) {
-            displayFileNameResults(fileNameOutput, options)
+            await displayFileNameResults(fileNameOutput, options)
         }
+        console.log("Done!")
     } catch (error) {
         core.setFailed(error.message)
     }
@@ -124,38 +124,42 @@ function parseArgs(args) {
  * @param {incorrectKeys} result - The incorrect keys found.
  */
 function displayKeyResults(result, options) {
-    console.log("Key Result:")
-    if (Object.keys(result).length > 0) {
-        core.setFailed("Found incorrect keys")
-        // Log incorrect keys per language
-        for (const languageCode of options.languages) {
-            const incorrectKeysForLang = Object.entries(result).filter(
-                ([path]) => path.includes(`/${languageCode}/`)
-            )
-            const incorrectKeysCount = incorrectKeysForLang.reduce(
-                (sum, [_, val]) => sum + val.length,
+    return new Promise((resolve) => {
+        console.log("Key Result:")
+        if (Object.keys(result).length > 0) {
+            core.setFailed("Found incorrect keys")
+            // Log incorrect keys per language
+            for (const languageCode of options.languages) {
+                const incorrectKeysForLang = Object.entries(result).filter(
+                    ([path]) => path.includes(`/${languageCode}/`)
+                )
+                const incorrectKeysCount = incorrectKeysForLang.reduce(
+                    (sum, [_, val]) => sum + val.length,
+                    0
+                )
+                console.log(
+                    `${languageCode}: ${incorrectKeysCount} incorrect keys`
+                )
+                if (options.verbose) {
+                    // log all incorrect keys for the language
+                    displayIncorrectKeys(
+                        languageCode,
+                        Object.fromEntries(incorrectKeysForLang)
+                    )
+                }
+            }
+            const incorrectKeyCount = Object.values(result).reduce(
+                (sum, val) => sum + val.length,
                 0
             )
-            console.log(`${languageCode}: ${incorrectKeysCount} incorrect keys`)
-            if (options.verbose) {
-                // log all incorrect keys for the language
-                displayIncorrectKeys(
-                    languageCode,
-                    Object.fromEntries(incorrectKeysForLang)
-                )
-            }
+            core.setFailed(
+                `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
+            )
+        } else {
+            resolve("✔ No incorrect keys found!")
+            process.exitCode = 0
         }
-        const incorrectKeyCount = Object.values(result).reduce(
-            (sum, val) => sum + val.length,
-            0
-        )
-        core.setFailed(
-            `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
-        )
-    } else {
-        console.log("✔ No incorrect keys found!")
-        process.exitCode = 0
-    }
+    })
 }
 
 /**
@@ -163,27 +167,28 @@ function displayKeyResults(result, options) {
  * @param {incorrectFileName[]} result - The incorrect keys found.
  */
 function displayFileNameResults(result, options) {
-    console.log("File Name Result:")
-    if (result.length > 0) {
-        core.setFailed("Found incorrect file names")
-        // Log incorrect file names per language
-        for (const languageCode of options.languages) {
-            const incorrectFileNamesForLang = result.filter((fileName) =>
-                fileName.incorrectFileName.includes(`/${languageCode}/`)
-            ).length
-            console.log(
-                `${languageCode}: ${incorrectFileNamesForLang} incorrect file names`
+    return new Promise((resolve) => {
+        console.log("File Name Result:")
+        if (result.length > 0) {
+            core.setFailed("Found incorrect file names")
+            // Log incorrect file names per language
+            for (const languageCode of options.languages) {
+                const incorrectFileNamesForLang = result.filter((fileName) =>
+                    fileName.incorrectFileName.includes(`/${languageCode}/`)
+                ).length
+                console.log(
+                    `${languageCode}: ${incorrectFileNamesForLang} incorrect file names`
+                )
+            }
+            const incorrectFileNameCount = result.length
+            core.setFailed(
+                `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
             )
+        } else {
+            console.log("✔ No incorrect file names found!")
+            process.exitCode = 0
         }
-        const incorrectFileNameCount = result.length
-        core.setFailed(
-            `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
-        )
-        process.exit()
-    } else {
-        console.log("✔ No incorrect file names found!")
-        process.exitCode = 0
-    }
+    })
 }
 
 /**
