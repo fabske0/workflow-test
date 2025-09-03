@@ -199,6 +199,9 @@ function displayFileNameResults(result, options) {
  * @param {incorrectKeys} incorrectKeysForLang - The incorrect keys for the language.
  */
 function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
+    if (Object.keys(incorrectKeysForLang).length <= 0) {
+        return
+    }
     for (const [filePath, incorrectKeys] of Object.entries(
         incorrectKeysForLang
     )) {
@@ -224,6 +227,9 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
  * @param {incorrectFileName[]} incorrectFileNamesForLang - The incorrect file names for the language.
  */
 function displayIncorrectFileNames(languageCode, incorrectFileNamesForLang) {
+    if (incorrectFileNamesForLang.length <= 0) {
+        return
+    }
     for (const incorrectFileName of incorrectFileNamesForLang) {
         if (
             !incorrectFileName.incorrectFileName.includes(`/${languageCode}/`)
