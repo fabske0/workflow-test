@@ -35,11 +35,11 @@ async function main() {
         let fileNameOutput = []
 
         if (options.checkKeys) {
-            core.info("\[38;2;255;165;0mChecking key format...")
+            core.info("\u001b[38;2;255;165;0mChecking key format...")
             keyOutput = await checkLocaleKeys(options)
         }
         if (options.checkFileNames) {
-            core.info("\[38;2;255;165;0mChecking file name format...")
+            core.info("\u001b[38;2;255;165;0mChecking file name format...")
             fileNameOutput = await checkLocaleFileNames(options)
         }
 
@@ -123,7 +123,7 @@ function parseArgs(args) {
  * @param {incorrectKeys} result - The incorrect keys found.
  */
 function displayKeyResults(result, options) {
-        core.info("\[38;2;255;165;0mKey Result:")
+        core.info("\u001b[38;2;255;165;0mKey Result:")
         if (Object.keys(result).length > 0) {
             core.setFailed("Found incorrect keys")
             // Log incorrect keys per language
@@ -135,7 +135,7 @@ function displayKeyResults(result, options) {
                     (sum, [_, val]) => sum + val.length,
                     0
                 )
-                const color = incorrectKeysCount > 0 ? "\[38;2;255;0;0m" : "\[38;2;0;255;0m" // green and red
+                const color = incorrectKeysCount > 0 ? "\u001b[38;2;255;0;0m" : "\u001b[38;2;0;255;0m" // green and red
                 core.info(
                     `${color}${languageCode}: ${incorrectKeysCount} incorrect keys`
                 )
@@ -153,7 +153,7 @@ function displayKeyResults(result, options) {
                 `✗ Found ${incorrectKeyCount} incorrect keys in ${options.languages.length} languages.`
             )
         } else {
-            core.info("\[38;2;0;255;0m✔ No incorrect keys found!")
+            core.info("\u001b[38;2;0;255;0m✔ No incorrect keys found!")
             process.exitCode = 0
         }
 }
@@ -163,7 +163,7 @@ function displayKeyResults(result, options) {
  * @param {incorrectFileName[]} result - The incorrect keys found.
  */
 function displayFileNameResults(result, options) {
-        core.info("\[38;2;255;165;0mFile Name Result:")
+        core.info("\u001b[38;2;255;165;0mFile Name Result:")
         if (result.length > 0) {
             core.setFailed("Found incorrect file names")
             // Log incorrect file names per language
@@ -171,7 +171,7 @@ function displayFileNameResults(result, options) {
                 const incorrectFileNamesForLang = result.filter((fileName) =>
                     fileName.incorrectFileName.includes(`/${languageCode}/`)
                 ).length
-                const color = incorrectFileNamesForLang > 0 ? "\[38;2;255;0;0m" : "\[38;2;0;255;0m" // green and red
+                const color = incorrectFileNamesForLang > 0 ? "\u001b[38;2;255;0;0m" : "\u001b[38;2;0;255;0m" // green and red
                       
                 core.info(
                     `${color}${languageCode}: ${incorrectFileNamesForLang} incorrect file names`
@@ -182,7 +182,7 @@ function displayFileNameResults(result, options) {
                 `✗ Found ${incorrectFileNameCount} incorrect file names in ${options.languages.length} languages.`
             )
         } else {
-            core.info("\[38;2;0;255;0m✔ No incorrect file names found!")
+            core.info("\u001b[38;2;0;255;0m✔ No incorrect file names found!")
             process.exitCode = 0
         }
 }
@@ -206,9 +206,9 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
         core.info(`\nFile: ${filePath}`)
         for (const incorrectKey of incorrectKeys) {
             core.info(
-                `\[38;2;255;0;0mIncorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
+                `\u001b[38;2;255;0;0mIncorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
             )
-            core.info(`\[38;2;0;0;255mCorrect key: ${incorrectKey.correctedKey}`)
+            core.info(`\u001b[38;2;0;0;255mCorrect key: ${incorrectKey.correctedKey}`)
         }
     }
 }
