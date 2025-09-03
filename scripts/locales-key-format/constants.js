@@ -1,7 +1,7 @@
 /**
  * The directory containing all locales files.
  */
-export const LOCALES_DIR = ".";
+export const LOCALES_DIR = "./public/locales"; // todo: adjust for locales repo
 /**
  * A list of files to ignore.
  * @type {string[]}
@@ -11,6 +11,7 @@ export const ignoreList = [
   ".gitignore",
   ".git",
   ".github",
+  ".gitmodules",
   "LICENSE",
   "modifier-type.json",
   "modifier.json",
