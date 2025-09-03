@@ -11,6 +11,15 @@ export const ignoreList = [
   "modifier-type.json", // todo: remove after modifier rework
   "modifier.json",
   "modifier-select-ui-handler.json",
+  ".git",
+  ".github",
+  ".gitignore",
+  "node_modules",
+  ".vscode",
+  "README.md",
+  "pnpm-lock.yaml",
+  "scripts",
+  "LICENSE"
 ];
 /**
  * A list of inbuild i18next key extensions which use snake_case instead of camelCase.
