@@ -36,7 +36,7 @@ async function main() {
         let fileNameOutput = []
 
         if (options.checkKeys) {
-            core.info(`${COLORS.info} Checking key format...`)
+            core.info(`${COLORS.info}Checking key format...`)
             keyOutput = await checkLocaleKeys(options)
         }
         if (options.checkFileNames) {

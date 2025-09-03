@@ -34,8 +34,8 @@ export async function checkLocaleKeys(options) {
           languageCodeIncorrectKeys += Object.values(fileIncorrectKeys).reduce((sum, val) => sum + val.length, 0);
         }
       }
-      console.log(
-          `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
+      core.info(
+          `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectKeys} incorrect keys.`,
       );
     }
     resolve(incorrectKeys);
@@ -64,7 +64,7 @@ function checkForIncorrectKeys(filePath, options) {
   /** @type {incorrectKeys} */
   const incorrectKeys = {};
   if (options.verbose) {
-    console.log(`checking file: ${filePath}`);
+    core.info(`${COLORS.file}checking file: ${filePath}`);
   }
 
   let data;
@@ -86,10 +86,10 @@ function checkForIncorrectKeys(filePath, options) {
   }
 
   if (entries.length === 0 && options.verbose) {
-    console.log(`No incorrect keys found in ${filePath}`);
+    core.info(`${COLORS.green}No incorrect keys found in ${filePath}`);
   } else {
     if (options.verbose) {
-      console.log(`Found ${entries.length} incorrect keys in ${filePath}`);
+      core.info(`${COLORS.red}Found ${entries.length} incorrect keys in ${filePath}`);
     }
   }
   return incorrectKeys;
@@ -112,8 +112,8 @@ function analyzeKey(key, index, options) {
     return null;
   }
   if (options.verbose) {
-    console.log(`Incorrect key found at line ${line}: ${key}`);
-    console.log(`Correct key: ${correctKey}`);
+    core.info(`${COLORS.red}Incorrect key found at line ${line}: ${key}`);
+  core.info(`${COLORS.blue}Correct key: ${correctKey}`);
   }
   return { incorrectKey: key, correctedKey: correctKey, line: line };
 }
@@ -162,8 +162,8 @@ export async function checkLocaleFileNames(options) {
           languageCodeIncorrectFiles++;
         }
       }
-      console.log(
-          `Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
+      core.info(
+          `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
       );
     }
     resolve(incorrectFileNames);
@@ -178,7 +178,7 @@ export async function checkLocaleFileNames(options) {
  */
 function checkForIncorrectFileName(filePath, options) {
   if (options.verbose) {
-    console.log(`checking file: ${filePath}`);
+    core.info(`${COLORS.file}checking file: ${filePath}`);
   }
 
   const fileName = filePath.split("/").pop();
@@ -191,8 +191,8 @@ function checkForIncorrectFileName(filePath, options) {
     return null;
   }
   if (options.verbose) {
-    console.log(`Incorrect file name found: ${fileName}`);
-    console.log(`Correct file name: ${correctFileName}`);
+    core.info(`${COLORS.red}Incorrect file name found: ${fileName}`);
+    core.info(`${COLORS.blue}Correct file name: ${correctFileName}`);
   }
   return { incorrectFileName: fileName, correctedFileName: correctFileName };
 }
