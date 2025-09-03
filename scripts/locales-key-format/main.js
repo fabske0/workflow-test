@@ -35,11 +35,11 @@ async function main() {
         let fileNameOutput = []
 
         if (options.checkKeys) {
-            core.info("\[38;2;255;265;0mChecking key format...")
+            core.info("\[38;2;255;165;0mChecking key format...")
             keyOutput = await checkLocaleKeys(options)
         }
         if (options.checkFileNames) {
-            core.info("\[38;2;255;265;0mChecking file name format...")
+            core.info("\[38;2;255;165;0mChecking file name format...")
             fileNameOutput = await checkLocaleFileNames(options)
         }
 
