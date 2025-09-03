@@ -170,7 +170,7 @@ export async function checkLocaleFileNames(options) {
       core.info(
           `${COLORS.magenta}Checked ${files.length} files for ${languageCode} and found ${languageCodeIncorrectFiles} incorrect file names.`,
       );
-      incorrectFileNamess[languageCode] = InvalidFileNamesForLang;
+      incorrectFileNames[languageCode] = InvalidFileNamesForLang;
       core.endGroup();
     }
     resolve(incorrectFileNames);
