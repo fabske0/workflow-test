@@ -116,7 +116,6 @@ function parseArgs(args) {
         // get all languages if none are specified
         options.languages = getLanguageCodes()
     }
-    console.log(options.languages)
     return options
 }
 
