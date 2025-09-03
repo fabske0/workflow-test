@@ -45,14 +45,12 @@ export function getLanguageCodes() {
     core.setFailed(errStr);
     console.error(errStr);
   } else {
-    console.log("Locales folder found:", LOCALES_DIR);
     const folders = readdirSync(LOCALES_DIR);
 
     for (const folder of folders) {
       if (ignoreList.includes(folder)) {
         continue;
       }
-      console.log("Found language code:", folder);
       languageCodes.push(folder);
     }
   }
