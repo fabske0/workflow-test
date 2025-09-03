@@ -204,7 +204,7 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
             continue
         }
         // log the filepath
-        core.info(`\nFile: ${filePath}`)
+        core.info(`\n${COLORS.file}File: ${filePath}`)
         for (const incorrectKey of incorrectKeys) {
             core.info(
                 `${COLORS.red}Incorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
