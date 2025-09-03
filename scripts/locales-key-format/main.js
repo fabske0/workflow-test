@@ -136,7 +136,7 @@ function displayKeyResults(result, options) {
                 0
             )
             const color = incorrectKeysCount > 0 ? COLORS.red : COLORS.green
-            core.startGroup(`Result for ${languageCode}`)
+            core.startGroup(`${color}Result for ${languageCode}`)
             core.info(
                 `${color}${languageCode}: ${incorrectKeysCount} incorrect keys`
             )
@@ -176,7 +176,7 @@ function displayFileNameResults(result, options) {
             const color =
                 incorrectFileNamesForLang.length > 0 ? COLORS.red : COLORS.green
 
-            core.startGroup(`Result for ${languageCode}`)
+            core.startGroup(`${color}Result for ${languageCode}`)
             core.info(
                 `${color}${languageCode}: ${incorrectFileNamesForLang.length} incorrect file names`
             )
