@@ -2,7 +2,6 @@ import * as core from "@actions/core"
 import { checkLocaleFileNames, checkLocaleKeys } from "./check-locales.js"
 import { COLORS } from "./constants.js"
 import { getLanguageCodes } from "./get-files.js"
-import { listLanguages, showHelpText } from "./help-message.js"
 
 /**
  * @packageDocumentation
@@ -73,11 +72,6 @@ function parseArgs(args) {
 
     for (const arg of optionArgs) {
         switch (arg) {
-            case "-h":
-            case "--help":
-                showHelpText()
-                process.exit(0)
-                break
             case "-k":
             case "--keys":
                 options.checkKeys = true
@@ -90,11 +84,6 @@ function parseArgs(args) {
             case "--verbose":
                 options.verbose = true
                 break
-            case "-l":
-            case "--list":
-                listLanguages()
-                process.exit(0)
-                break
             default:
                 core.setFailed(`Unknown option: ${arg}`)
                 showHelpText()
@@ -106,7 +95,6 @@ function parseArgs(args) {
     for (const language of languageArgs) {
         if (!validLanguages.includes(language)) {
             core.setFailed(`Invalid language: ${language}`)
-            listLanguages()
             process.exit()
         }
         options.languages.push(language)
