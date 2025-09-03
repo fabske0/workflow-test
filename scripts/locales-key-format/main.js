@@ -17,7 +17,7 @@ import { getLanguageCodes } from "./get-files.js"
 const version = "1.0.0"
 
 async function main() {
-    console.log(`🍳 Locales key format checker v${version}`)
+    core.info(`🍳 Locales key format checker v${version}`)
 
     try {
         const args = process.argv.slice(2)
@@ -35,11 +35,11 @@ async function main() {
         let fileNameOutput = []
 
         if (options.checkKeys) {
-            console.log("Checking key format...")
+            core.info("Checking key format...")
             keyOutput = await checkLocaleKeys(options)
         }
         if (options.checkFileNames) {
-            console.log("Checking file name format...")
+            core.info("Checking file name format...")
             fileNameOutput = await checkLocaleFileNames(options)
         }
 
@@ -50,7 +50,6 @@ async function main() {
         if (options.checkFileNames) {
             await displayFileNameResults(fileNameOutput, options)
         }
-        console.log("Done!")
     } catch (error) {
         core.setFailed(error.message)
     }
@@ -125,7 +124,7 @@ function parseArgs(args) {
  */
 function displayKeyResults(result, options) {
     return new Promise((resolve) => {
-        console.log("Key Result:")
+        core.info("Key Result:")
         if (Object.keys(result).length > 0) {
             core.setFailed("Found incorrect keys")
             // Log incorrect keys per language
@@ -166,7 +165,7 @@ function displayKeyResults(result, options) {
  */
 function displayFileNameResults(result, options) {
     return new Promise((resolve) => {
-        console.log("File Name Result:")
+        core.info("File Name Result:")
         if (result.length > 0) {
             core.setFailed("Found incorrect file names")
             // Log incorrect file names per language
@@ -205,7 +204,7 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
             continue
         }
         // log the filepath
-        console.log(`\nFile: ${filePath}`)
+        core.info(`\nFile: ${filePath}`)
         for (const incorrectKey of incorrectKeys) {
             console.log(
                 `Incorrect key found at line ${incorrectKey.line}: ${incorrectKey.incorrectKey}`
