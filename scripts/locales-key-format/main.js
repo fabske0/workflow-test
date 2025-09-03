@@ -4,7 +4,9 @@ import {
 } from "../locales-key-format/help-message.js"
 import { checkLocaleFileNames, checkLocaleKeys } from "./check-locales.js"
 import { getLanguageCodes } from "./get-files.js"
-
+import * as core from "@actions/core"
+import * as github from "@actions/github"
+github.context.eventName
 /**
  * @packageDocumentation
  * This script will check the key format of locales files
@@ -120,7 +122,7 @@ function parseArgs(args) {
 function displayKeyResults(result, options) {
     console.log("Key Result:")
     if (Object.keys(result).length > 1) {
-        process.exitCode = 1
+        core.setFailed("Found incorrect keys")
         // Log incorrect keys per language
         for (const languageCode of options.languages) {
             const incorrectKeysForLang = Object.entries(result).filter(
@@ -159,7 +161,7 @@ function displayKeyResults(result, options) {
 function displayFileNameResults(result, options) {
     console.log("File Name Result:")
     if (result.length > 0) {
-        process.exitCode = 1
+        core.setFailed("Found incorrect file names")
         // Log incorrect file names per language
         for (const languageCode of options.languages) {
             const incorrectFileNamesForLang = result.filter((fileName) =>
