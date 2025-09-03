@@ -129,6 +129,7 @@ function displayKeyResults(result, options) {
             core.setFailed("Found incorrect keys")
             // Log incorrect keys per language
             for (const languageCode of options.languages) {
+                core.startGroup(`Result for ${languageCode}`)
                 const incorrectKeysForLang = Object.entries(result).filter(
                     ([path]) => path.includes(`/${languageCode}/`)
                 )
@@ -145,6 +146,7 @@ function displayKeyResults(result, options) {
                     languageCode,
                     Object.fromEntries(incorrectKeysForLang)
                 )
+                core.endGroup()
             }
             const incorrectKeyCount = Object.values(result).reduce(
                 (sum, val) => sum + val.length,
