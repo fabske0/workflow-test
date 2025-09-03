@@ -15,7 +15,7 @@ export function getFiles(dir) {
    */
   const files = [];
 
-  if (lstatSync(filePath).isDirectory()) {
+  if (lstatSync(dir).isDirectory()) {
     const entries = readdirSync(dir);
 
     for (const entry of entries) {
