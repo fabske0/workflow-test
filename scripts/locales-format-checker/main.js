@@ -166,7 +166,7 @@ function displayFileNameResults(result, options) {
             core.info(
                 `${color}${languageCode}: ${incorrectFileNamesForLang.length} incorrect file names`
             )
-            displayIncorrectFileNames(languageCode, incorrectFileNamesForLang)
+            displayIncorrectFileNames(incorrectFileNamesForLang)
             core.endGroup()
         }
         const incorrectFileNameCount = result.length
@@ -209,10 +209,9 @@ function displayIncorrectKeys(languageCode, incorrectKeysForLang) {
 
 /**
  * Display the incorrect keys for a language.
- * @param {string} languageCode - The language code.
  * @param {incorrectFileName[]} incorrectFileNamesForLang - The incorrect file names for the language.
  */
-function displayIncorrectFileNames(languageCode, incorrectFileNamesForLang) {
+function displayIncorrectFileNames(incorrectFileNamesForLang) {
     if (incorrectFileNamesForLang.length <= 0) {
         return
     }

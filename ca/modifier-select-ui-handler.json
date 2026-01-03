@@ -1,7 +1,0 @@
-{
-  "reroll": "Refrescar",
-  "checkTeam": "Equip",
-  "rerollCost": "{{formattedMoney}} ₽",
-  "itemCost": "{{formattedMoney}} ₽",
-  "continueNextWaveButton": "Continuar"
-}

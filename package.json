@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "check-locales": "node scripts/locales-format-checker/main.js",
-    "chalk-test": "enode scripts/chalk-test.js"
+    "chalk-test": "node scripts/chalk-test.js"
   },
   "repository": {
     "type": "git",
