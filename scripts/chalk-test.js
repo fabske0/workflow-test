@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-
+chalk.level = 2
 console.log("---Chalk---")
 console.log(chalk.blue('Hello world!'));
 console.log(chalk.red('Hello world!'));
